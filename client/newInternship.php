@@ -6,10 +6,12 @@
     $db = DB::getConnection();
 
     if(isset($_POST['submit'])) {
-       
-        echo "submit";
 
-        // $companyID = $_SESSION['companyID'];
+
+        if(isset($_SESSION['ime_tvrtke'])) {
+            $companyName = $_SESSION['ime_tvrtke'];
+        }
+
         // $internshipId = $_POST['internshipId'];
         
         $title = $_POST['title'];
@@ -19,10 +21,11 @@
         $salary = $_POST['salary'];
         $capacity = $_POST['capacity'];
         $location = $_POST['location'];
+    
         $additionalInfo = $_POST['additionalInfo'];
 
-        $sql = "INSERT INTO oglas (id_oglasa, kapacitet, broj_prijavljenih, placa_kn, opis_posla, kvalifikacije, datum_pocetka, dodatne_informacije)
-            VALUES (1, '$capacity', 0,  '$salary',  '$description', '$qualifications', '$startDate', '$additionalInfo')";
+        $sql = "INSERT INTO oglas (id_oglasa, naslov, kapacitet, broj_prijavljenih, placa_kn, opis_posla, kvalifikacije, datum_pocetka, dodatne_informacije)
+                VALUES (DEFAULT, '$title', '$capacity', 0,  '$salary',  '$description', '$qualifications', '$startDate', '$additionalInfo')";
 
         if ($db->query($sql) === TRUE) {
             echo "New record created successfully";
