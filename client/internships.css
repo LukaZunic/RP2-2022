@@ -13,12 +13,12 @@
     justify-content: center;
   }
   .solution_cards_box .solution_card {
-    flex: 0 50%;
+    flex: 0 70%;
     background: #fff;
     box-shadow: 0 2px 4px 0 rgba(136, 144, 195, 0.2),
       0 5px 15px 0 rgba(37, 44, 97, 0.15);
     border-radius: 15px;
-    margin: 8px;
+    margin: 2px;
     padding: 10px 15px;
     position: relative;
     z-index: 1;
@@ -118,8 +118,9 @@
     top: 0rem;
   }
   
+  
   .solution_cards_box .solution_card .so_top_icon {
-    width: 60px;
+    width: 800px;
     height: 60px;
     border-radius: 50%;
     background: #fff;
@@ -178,10 +179,6 @@
 *, :after, :before {
   box-sizing: border-box;
   margin: 0;
-}
-
-body {
-  font-family: Bitter;
 }
 
 .articles {
