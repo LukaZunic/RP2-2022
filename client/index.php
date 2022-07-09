@@ -1,3 +1,9 @@
+
+<?php
+  session_start();
+?>
+
+
 <!DOCTYPE html>
 <html lang='en'>
   <head>
@@ -16,12 +22,12 @@
   </head>
   <body>
 
-    <nav class="navbar fixed-top px-5 mb-5" style="background-color: #1D3557;">
-        <span class="navbar-brand mb-0 h1" style="color: white;">Studentski portal</span>
+    <nav class="navbar fixed-top px-5 mb-5" style="background-color: transparent;">
+        <span class="navbar-brand mb-0 h1" style="color: white;">STUDENTSKI PORTAL</span>
     </nav>
 
 
-    <div id='free' class="px-5 py-4 mt-5">
+    <div id='free' class="px-5 py-4 mt-5" style="color:white;">
       <h3>Slobodne prakse</h3>
     </div>
 
@@ -31,29 +37,34 @@
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">New message</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
           </div>
           <div class="modal-body">
             <form>
               <div class="form-group">
-                <label for="recipient-name" class="col-form-label">Ime:</label>
-                <input type="text" class="form-control" id="recipient-name">
+                <label for="applicant-name" class="col-form-label">Ime:</label>
+                <input type="text" class="form-control" id="applicant-name">
               </div>
               <div class="form-group">
-                <label for="recipient-name" class="col-form-label">Prezime:</label>
-                <input type="text" class="form-control" id="recipient-name">
+                <label for="applicant-surname" class="col-form-label">Prezime:</label>
+                <input type="text" class="form-control" id="applicant-surname">
               </div>
               <div class="form-group">
-                <label for="recipient-name" class="col-form-label">Poruka:</label>
-                <input type="text" class="form-control" id="recipient-name">
+                <label for="applicant-msg" class="col-form-label">Poruka:</label>
+                <input type="text" class="form-control" id="applicant-msg">
+              </div>
+              <div class="form-group">
+                <label for="applicant-msg" class="col-form-label">E-mail:</label>
+                <input type="text" class="form-control" id="applicant-email">
+              </div>
+              <div class="form-group">
+                <label for="int-id" class="col-form-label">ID Prakse:</label>
+                <input type="text" class="form-control" id="int-id">
               </div>
             </form>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Pošalji prijavu!</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zatvori</button>
+            <button type="button" class="btn btn-primary" onclick='handleApplication();'>Pošalji prijavu!</button>
           </div>
         </div>
       </div>
@@ -64,6 +75,7 @@
     $('#exampleModal').on('show.bs.modal', function (event) {
       var button = $(event.relatedTarget) // Button that triggered the modal
       var recipient = button.data('whatever') // Extract info from data-* attributes
+
       // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
       // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
       var modal = $(this)
@@ -79,12 +91,37 @@
         showInternships_nat();
       });
 
-      applicationProcedure = function(id) {
+      handleApplication = function(internshipId) {
         
-
+        var name = $('#applicant-name').val();
+        var surname = $('#applicant-surname').val();
+        var email = $('#applicant-email').val();
+        var message = $('#applicant-msg').val();
+        console.log(name, surname,email, message);
+        
+        $.ajax({
+            url: "../server/sendApplication.php",
+            data: {
+              internshipId: internshipId,
+              name: name,
+              surname: surname,
+              message: message,
+              email: email
+            },
+            success: function(data) {
+              console.log(data);
+            },
+            error: function(xhr, status) {
+                console.log("handleApplication :: error :: status = " + status);
+                if(status === "timeout")
+                    showInternships();
+            }
+        })
+        
       }
 
       showInternship_nat = function(id) {
+        $_SESSION['internshipId'] = id;
         $.ajax({
             url: "../server/getInternships.php",
             data: {
@@ -97,14 +134,14 @@
               document.getElementById('free').innerHTML = '';
 
               internships = internships;
-              var html = " <button type='button' class='read_more_btn' onclick = 'showInternships_nat()')><a >\Natrag</a></button>";
+              var html = " <button type='button'  onclick = 'showInternships_nat()')><a >\Natrag</a></button>";
 
               html += ""
 
               html += "<div class='container' style='margin-left: 50px; line-height:20px;'>";
-              html += '<div class="details_title" style="line-height: 3px; !important">';
-                html += "<h1> " + internships[0].company + "</h1>";
-                html += '<h3>' + internships[0].title + '</h3>';
+              html += '<div class="details_title" style="line-height: 3px; !important font-weight: bold;" style="color: white ">';
+                html += "<h1 style='color: white; font-weight: bold;'> " + internships[0].company + "</h1>";
+                html += '<h3 style="color: white; font-weight: bold;">' + internships[0].title + '</h3>';
                 html += "<p class='font-weight-bold'>IT park Osijek 1, Osijek, Osječko-baranjska županija, Croatia</p>";
                 html += "<p>Zaposlenici mogu raditi na daljinu</p>";
               html += '</div>';
@@ -114,24 +151,24 @@
               html += "<button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#exampleModal' data-whatever='"+ internships[0].ID +"'>Prijavi se</button>";
               html += '<div class="details_body w-50">';
 
-                html += "<h4 class='mt-5'>Opis firme</h4>";
+                html += "<h4 class='mt-5' style='color: white; font-weight: bold;'>Opis firme</h4>";
                 html += "<p>" + 'Mi smo Mono, full-service software development tvrtka iz Osijeka. Proslavili smo 19. rođendan. Uselili u osječki IT park! Proglašeni smo najuspješnijim poduzećem u Hrvatskoj za vrijeme pandemije te najboljom ICT tvrtkom - i to u globalno najizazovnijoj godini ikada. \
                             Tražimo nove kolege koji će s nama jednako entuzijastično nastaviti postojeće klijentske i interne projekte te donijeti dašak nove energije i originalnih ideja u procesima i projektima koje tek jedva čekamo započeti. U potrazi smo za ljudima svih levela: junior, middle, senior s naglaskom na mid/senior' + "</p>";
 
-                html += "<h4>Opis prakse</h4>";
+                html += "<h4 style='color: white; font-weight: bold;'>Opis prakse</h4>";
                 html += "<p>" + 'Kao DevOps engineer u Monu ćeš se baviti izgradnjom (planiranjem), održavanjem i povezivanjem continuous integration, continuous delivery/deployment servisa i operacija, a ponekad i automatiziranih testova, backupa i slično.\
                                 U suradnji s kolegom sistemcem ili samostalno ćeš raditi na planiranju i izgradnji nove infrastrukture - u smislu podizanja i konfiguriranja novih servera i servisa na njima.\
                                 Upravljat ćeš nadzorom (monitoring) i održavanjem (poboljšanjem) postojećih sustava (i infrastrukture), ponajviše u smjeru sigurnosti i performansi (optimizacije servera, skaliranje, npr. rekonfiguriranje i migracije baza podataka).' + "</p>";
                 
-                html += "<h4>Kvalifikacije</h4>";
+                html += "<h4 style='color: white; font-weight: bold;'>Kvalifikacije</h4>";
                 html += "<p>" + 'iskustvo u radu s Microsoft Azure i/ili Amazon AWS okruženjima i alatima (EC2, RDS,  ElastiCache) te sa serverskim OS-ovima (primarno Windows, Linux - Centos i rjeđe Ubuntu) \ ' + "</p>";
                   
-                html += "<h4>Dodatne informacije</h4>";
+                html += "<h4 style='color: white; font-weight: bold;'>Dodatne informacije</h4>";
                 html += '<p> Zauzvrat nudimo: </p>';
                 html += '<p> fleksibilno radno vrijeme \
                             povremeni remote rad/hybrid </p>';
 
-                html += "<h4>Datum početka: " + '2022' + "</h4>";
+                html += "<h4 style='color: white; font-weight: bold;'>Datum početka: " + '2022' + "</h4>";
             
                 html += "<button type='button' onclick = 'showInternships()><a >\Natrag</a></button>\ ";
                   
@@ -155,9 +192,9 @@
               id: -1
             },
             success: function(data) {
-              console.log(data);
+
               var internships = JSON.parse(data);
-              console.log(internships);
+    
               var html = "";
               for (var i = 0; i < internships.length; i++) {
                   html += "<div class='section_our_solution my-3'>\
@@ -206,8 +243,8 @@
 
       </div>
       <div class="col-sm">
-        <h2>Naši ciljevi</h2>
-          <p style="width:600px;">
+        <h2 style="color: white;">Naši ciljevi</h2>
+          <p style="width:600px; color: white;">
             Osnovni ciljevi stručne prakse su stjecanje novih spoznaja, vještina i kompetencija studenata,
             prilagodba studenata specifičnim zahtjevima tržišta rada, nadopuna, praktična provjera i primjena stručnih znanja usvojenih tijekom studija, stjecanje stručnog iskustva, razvijanje odgovornosti prema uspješnom izvršavanju zadataka, razvoj komunikacijskih vještina u radu s korisnicima i promocija suradnje Odjela s AKM i drugim ustanovama.
             Stručna praksa obvezni je dio nastavnog procesa. Obavljaju je studenti preddiplomskog i diplomskog (redovnog i izvanrednog) studija informacijskih znanosti Sveučilišta u Zadru koji nakon završetka školovanja stječu naziv prvostupnik/prvostupnica informacijskih znanosti i magistar/magistra informacijskih znanosti. Studenti stručnu praksu mogu obavljati u zemlji i inozemstvu.

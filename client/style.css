@@ -1,5 +1,6 @@
 body{
     background-color: rgba(69, 123, 157, 0.1) !important;
+    background-image: url('assets/curve_gr.svg');
 }
 
 body {
@@ -10,4 +11,8 @@ body {
 a, a:hover, a:visited, a:link, a:active {   
     color: inherit !important;
     text-decoration: none;
+}
+
+p, h1, h2, h3, h4{
+    color: white;
 }

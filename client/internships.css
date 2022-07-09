@@ -173,7 +173,7 @@
   --colour-background: #fff;
   --colour-background-folded: #f5f5f5;
   --colour-background-stripes: rgba(255,255,255,.5);
-  --colour-text: #1a1a1a;
+  --colour-text: #1a1a1a !important;
 }
 
 *, :after, :before {
