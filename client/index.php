@@ -24,8 +24,12 @@
 
     <nav class="navbar fixed-top px-5 mb-5" style="background-color: transparent;">
         <span class="navbar-brand mb-0 h1" style="color: white;">STUDENTSKI PORTAL</span>
+        <span class="navbar-action">
+          <button type="button" class="btn btn-light">
+            <a href="./client/newInternship.php" style="color: white;">Dodaj Oglas</a>
+          </button>
+        </span>
     </nav>
-
 
     <div id='free' class="px-5 py-4 mt-5" style="color:white;">
       <h3>Slobodne prakse</h3>
