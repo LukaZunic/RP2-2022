@@ -13,25 +13,96 @@
   </head>
   <body>
 
-    <nav class="navbar navbar-light bg-light">
-        <span class="navbar-brand mb-0 h1">Navbar</span>
+    <nav class="navbar fixed-top px-5 mb-5" style="background-color: #1D3557;">
+        <span class="navbar-brand mb-0 h1" style="color: white;">Studentski portal</span>
     </nav>
+
+
+    <div id='free' class="px-5 py-4 mt-5">
+      <h3>Slobodne prakse</h3>
+    </div>
 
     <script>
       $(document).ready(() => {
         showInternships_nat();
       });
 
+
+      showInternship_nat = function(id) {
+        $.ajax({
+            url: "../server/getInternships.php",
+            data: {
+                id: id
+            },
+            success: function(data) {
+              console.log(data);
+              var internships = JSON.parse(data);
+
+              document.getElementById('free').innerHTML = '';
+
+              internships = internships;
+              var html = " <button type='button' class='read_more_btn' onclick = 'showInternships_nat()')><a >\Natrag</a></button>";
+
+              html += ""
+
+              html += "<div class='container' style='margin-left: 50px; line-height:20px;'>";
+
+              html += '<div class="details_title" style="line-height: 3px; !important">';
+                html += "<h1> " + internships[0].company + "</h1>";
+                html += '<h3>' + internships[0].title + '</h3>';
+                html += "<p class='font-weight-bold'>IT park Osijek 1, Osijek, Osječko-baranjska županija, Croatia</p>";
+                html += "<p>Zaposlenici mogu raditi na daljinu</p>";
+              html += '</div>';
+
+              html += '<div class="details_body w-50">';
+
+                html += "<h4 class='mt-5'>Opis firme</h4>";
+                html += "<p>" + 'Mi smo Mono, full-service software development tvrtka iz Osijeka. Proslavili smo 19. rođendan. Uselili u osječki IT park! Proglašeni smo najuspješnijim poduzećem u Hrvatskoj za vrijeme pandemije te najboljom ICT tvrtkom - i to u globalno najizazovnijoj godini ikada. \
+                            Tražimo nove kolege koji će s nama jednako entuzijastično nastaviti postojeće klijentske i interne projekte te donijeti dašak nove energije i originalnih ideja u procesima i projektima koje tek jedva čekamo započeti. U potrazi smo za ljudima svih levela: junior, middle, senior s naglaskom na mid/senior' + "</p>";
+
+                html += "<h4>Opis prakse</h4>";
+                html += "<p>" + 'Kao DevOps engineer u Monu ćeš se baviti izgradnjom (planiranjem), održavanjem i povezivanjem continuous integration, continuous delivery/deployment servisa i operacija, a ponekad i automatiziranih testova, backupa i slično.\
+                                U suradnji s kolegom sistemcem ili samostalno ćeš raditi na planiranju i izgradnji nove infrastrukture - u smislu podizanja i konfiguriranja novih servera i servisa na njima.\
+                                Upravljat ćeš nadzorom (monitoring) i održavanjem (poboljšanjem) postojećih sustava (i infrastrukture), ponajviše u smjeru sigurnosti i performansi (optimizacije servera, skaliranje, npr. rekonfiguriranje i migracije baza podataka).' + "</p>";
+                
+                html += "<h4>Kvalifikacije</h4>";
+                html += "<p>" + 'iskustvo u radu s Microsoft Azure i/ili Amazon AWS okruženjima i alatima (EC2, RDS,  ElastiCache) te sa serverskim OS-ovima (primarno Windows, Linux - Centos i rjeđe Ubuntu) \ ' + "</p>";
+                  
+                html += "<h4>Dodatne informacije</h4>";
+                html += '<p> Zauzvrat nudimo: </p>';
+                html += '<p> fleksibilno radno vrijeme \
+                            povremeni remote rad/hybrid </p>';
+
+
+                html += "<h4>Datum početka: " + '2022' + "</h4>";
+                html += "<button type='button' class='read_more_btn' onclick = 'showInternships()><a >\Natrag</a></button>\ ";
+                  
+                html += '</div>';
+                html += "</div>";
+
+              $("#internships").html(html);
+            },
+            error: function(xhr, status) {
+                console.log("showInternships :: error :: status = " + status);
+                if(status === "timeout")
+                    showInternships();
+            }
+        })
+      }
+
       showInternships_nat = function() {
         $.ajax({
             url: "../server/getInternships.php",
-            data: {},
+            data: {
+              id: -1
+            },
             success: function(data) {
+              console.log(data);
               var internships = JSON.parse(data);
               console.log(internships);
               var html = "";
               for (var i = 0; i < internships.length; i++) {
-                  html += " <div class='section_our_solution'>\
+                  html += "<div class='section_our_solution my-3'>\
                 <div class='row'>\
                   <div class='col-lg-12 col-md-12 col-sm-12'>\
                     <div class='our_solution_category'>\
@@ -42,17 +113,20 @@
                             <img src='client/assets/headhunting.png' alt=''>\
                           </div>\
                           <div class='solu_title'>\
-                            <h3>\ " + internships[i].title + " </h3>\
+                            <h3>" + internships[i].company + ' - ' + internships[i].title + " </h3>\
                           </div>\
                           <div class='solu_description'>\
                             <p>\ "
                             html += internships[i].description;
+                            html += '<br>';
+                            html += 'Prijave do 30.12.12';
                             html += " </p>\
-                            <button type='button' class='read_more_btn'>\Read More</button>\
+                            <button type='button' class='read_more_btn' onclick = 'showInternship_nat(" + internships[i].ID + ")')><a >\Detalji</a></button>\
                           </div>\
                         </div>\
                       </div>\
                       </div>";
+                console.log([internships[i]]);
               }
 
               $("#internships").html(html);
@@ -67,9 +141,14 @@
 
     </script>
 
-    <div id="internships">
+    <div id="main flex">
+      <div id="internships" style="width: 80%;">
+
+      </div>
 
     </div>
+
+   
     
 
   </body>

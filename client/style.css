@@ -1,0 +1,8 @@
+body{
+    background-color: rgba(69, 123, 157, 0.1) !important;
+}
+
+a, a:hover, a:visited, a:link, a:active {   
+    color: inherit !important;
+    text-decoration: none;
+}
