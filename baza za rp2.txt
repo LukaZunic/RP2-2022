@@ -1,0 +1,57 @@
+ENTITETI
+------------------------------------------------------------
+table = tvrtka 
+1. id_tvrtke 
+2. ime_tvrtke
+3. adresa_tvrtke
+4. telefon
+5. mail_adresa
+6. sifra_tvrtke
+7. opis
+8. godina_osnutka
+
+------------------------------------------------------------
+table = student 
+1. jmbag
+2. ime
+3. prezime
+4. sifra_studenta
+5. fakultet
+6. studij
+7. smjer
+8. godina_studija
+9. prosjek
+10. broj_mobitela
+
+------------------------------------------------------------
+table = fakultet
+1. ime_fakulteta
+
+------------------------------------------------------------
+
+table = oglas 
+
+1. id_oglasa
+2. kapacitet
+3. broj_prijavljenih 
+4. placa_kn
+5. opis_posla
+
+
+
+VEZE
+
+--------------------------------------------
+table = prijavljen
+veza izmedu student i oglas
+
+1. jmbag
+2. id_oglasa
+
+------------------------------------------------------------
+
+table = objava
+veza izmedu oglas i tvrtka
+
+1. id_tvrtke 
+2. id_oglasa
