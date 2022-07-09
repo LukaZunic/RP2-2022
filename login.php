@@ -1,7 +1,7 @@
 <?php		
 include 'db.php'; 
 crtaj_Forma("");
-
+session_start();
 if(isset( $_POST["gumb"] ) && $_POST["gumb"] === "Ulogiraj me!" ){
     ulogiraj();
 }
@@ -58,10 +58,11 @@ function spoji_studenta(){
     $st = $db->query("SELECT jmbag,sifra_studenta FROM student WHERE jmbag = '$jmbag'");
     $postojeci = 0; 
     while ($row = $st->fetch()){
-        if($jmbag === $row['jmbag']){
+        if($jmbag == $row['jmbag']){
             if($sifra_studenta === $row['sifra_studenta']){
                 echo "Uspješno ste se ulogirali!\n";
                 //Ovdje login daljnji kod!
+                $_SESSION["jmbag"] = $jmbag; 
                 return; 
             }
             
@@ -88,13 +89,14 @@ function spoji_tvrtku(){
         $ime = $_POST['imetvrtke'];
     }
     $db = DB::getConnection();
-    $st = $db->query("SELECT ime_tvrtke,sifra_tvrtke FROM student WHERE ime_tvrtke = '$ime'");
+    $st = $db->query("SELECT ime_tvrtke,sifra_tvrtke FROM tvrtke WHERE ime_tvrtke = '$ime'");
     $postojeci = 0; 
     while ($row = $st->fetch()){
         if($ime === $row['ime_tvrtke']){
             if($sifra_tvrtke === $row['sifra_tvrtke']){
                 echo "Uspješno ste se ulogirali!\n";
                 //Ovdje login daljnji kod!
+                $_SESSION["ime_tvrtke"] = $ime; 
                 return; 
             }
             
