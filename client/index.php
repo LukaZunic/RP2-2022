@@ -57,8 +57,8 @@
                 <input type="text" class="form-control" id="applicant-email">
               </div>
               <div class="form-group">
-                <label for="int-id" class="col-form-label">ID Prakse:</label>
-                <input type="text" class="form-control" id="int-id">
+                <label for="int-id" class="col-form-label">ID PRAKSE:</label>
+                <input type="text" class="form-control" id="int-id" disabled>
               </div>
             </form>
           </div>
@@ -74,13 +74,14 @@
 
     $('#exampleModal').on('show.bs.modal', function (event) {
       var button = $(event.relatedTarget) // Button that triggered the modal
-      var recipient = button.data('whatever') // Extract info from data-* attributes
+      var recipient = button.data('int-id') // Extract info from data-* attributes
 
       // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
       // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
       var modal = $(this)
       modal.find('.modal-title').text('New message to ' + recipient)
       modal.find('.modal-body input').val(recipient)
+      modal.find('.modal int-id').val(recipient)
     })
 
     </script>
@@ -91,13 +92,16 @@
         showInternships_nat();
       });
 
-      handleApplication = function(internshipId) {
+      handleApplication = function() {
         
         var name = $('#applicant-name').val();
         var surname = $('#applicant-surname').val();
         var email = $('#applicant-email').val();
         var message = $('#applicant-msg').val();
-        console.log(name, surname,email, message);
+        var internshipId = $('#int-id').val();
+        console.log(name, surname, email, message, internshipId);
+
+  
         
         $.ajax({
             url: "../server/sendApplication.php",
@@ -121,7 +125,7 @@
       }
 
       showInternship_nat = function(id) {
-        $_SESSION['internshipId'] = id;
+      
         $.ajax({
             url: "../server/getInternships.php",
             data: {
@@ -148,7 +152,7 @@
 
               // html += "<button onclick='applicationProcedure(" + internships[0].ID + ")'>Prijavi se</button>";
 
-              html += "<button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#exampleModal' data-whatever='"+ internships[0].ID +"'>Prijavi se</button>";
+              html += "<button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#exampleModal' data-int-id='"+ internships[0].ID +"'>Prijavi se</button>";
               html += '<div class="details_body w-50">';
 
                 html += "<h4 class='mt-5' style='color: white; font-weight: bold;'>Opis firme</h4>";
