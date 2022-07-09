@@ -21,7 +21,8 @@ table = student
 7. smjer
 8. godina_studija
 9. prosjek
-10. broj_mobitela
+10. mail
+11. broj_mobitela
 
 ------------------------------------------------------------
 table = fakultet
