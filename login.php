@@ -1,11 +1,11 @@
 <?php		
-include 'db.php'; 
-crtaj_Forma("");
-session_start();
-if(isset( $_POST["gumb"] ) && $_POST["gumb"] === "Ulogiraj me!" ){
-    ulogiraj();
-}
-function crtaj_Forma($mess){
+    include 'db.php'; 
+    crtaj_Forma("");
+    session_start();
+    if(isset( $_POST["gumb"] ) && $_POST["gumb"] === "Ulogiraj me!" ){
+        ulogiraj();
+    }
+    function crtaj_Forma($mess){
 ?>
 <!DOCTYPE html>
 <head>

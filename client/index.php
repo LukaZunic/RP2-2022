@@ -1,6 +1,15 @@
 
 <?php
   session_start();
+  $_SESSION['tip_korisnika'] = 'student';
+
+  // if(!isset($_SESSION['tip_korisnika'])) {
+  //   header('login.php');
+  // }
+
+  if(isset($_SESSION['tip_korisnika'])) {
+    $tip_korisnika = $_SESSION['tip_korisnika'];
+  }
 ?>
 
 
@@ -14,6 +23,7 @@
     <link rel="stylesheet" href="client/style.css">
     <link rel="stylesheet" href="client/internships.css">
     <script src="./script.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href='https://fonts.googleapis.com/css?family=Titillium Web' rel='stylesheet'>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -24,11 +34,20 @@
 
     <nav class="navbar fixed-top px-5 mb-5" style="background-color: transparent;">
         <span class="navbar-brand mb-0 h1" style="color: white;">STUDENTSKI PORTAL</span>
-        <span class="navbar-action">
-          <button type="button" class="btn btn-light">
-            <a href="./client/newInternship.php" style="color: white;">Dodaj Oglas</a>
-          </button>
-        </span>
+
+
+        <?php
+          if($tip_korisnika === 'tvrtka') {
+            echo '<li class="nav-item">';
+            echo '<a class="nav-link" href="#">Link</a>';
+            echo '</li>';
+            echo '<span class="navbar-action">';
+            echo '<button type="button" class="btn btn-light">';
+            echo '<a href="./client/newInternship.php" style="color: white;">Dodaj Oglas</a>';
+            echo '</button>';
+            echo '</span>';
+          }
+        ?>
     </nav>
 
     <div id='free' class="px-5 py-4 mt-5" style="color:white;">
