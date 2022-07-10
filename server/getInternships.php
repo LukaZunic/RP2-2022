@@ -10,7 +10,7 @@
     $id = $_GET['id'];
 
     if($id != -1) {
-        $sql="SELECT * FROM internship WHERE ID = $id";
+        $sql="SELECT * FROM oglas WHERE id_oglasa = $id";
         $result = $conn->query($sql);
 
         $internships = array();
@@ -18,7 +18,7 @@
             $internships[] = $row;
         }
     } else {
-        $sql="SELECT * FROM internship";
+        $sql="SELECT * FROM oglas";
         $result = $conn->query($sql);
 
         $internships = array();

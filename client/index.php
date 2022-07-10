@@ -178,50 +178,57 @@
               console.log(data);
               var internships = JSON.parse(data);
 
-              // document.getElementById('free').innerHTML = '';
 
-              internships = internships;
-              var html = "";
+              $.ajax({
+                url: "../server/getCompany.php",
+                method: "GET",
+                data: {
+                  id: 'fotomat' // prominit
+                },
+                success: function(cmp) {
+                  console.log(cmp);
 
-              html += "<div class='container mb-5' style='margin-left: 50px; line-height:20px;'>";
-              html += " <button type='button' class='btn btn-light mb-5'  onclick = 'showInternships_nat()')><a >\ <i class='fa fa-chevron-left' aria-hidden='true'></i> Natrag na sve oglase</a></button>";
-              html += '<div class="details_title" style="line-height: 3px; !important font-weight: bold;" style="color: white ">';
-                html += "<h1 style='color: white; font-weight: bold;'> " + internships[0].company + "</h1>";
-                html += '<h3 style="color: white; font-weight: bold;">' + internships[0].title + '</h3>';
-                html += "<p class='font-weight-bold'>IT park Osijek 1, Osijek, Osječko-baranjska županija, Croatia</p>";
-                html += "<p>Zaposlenici mogu raditi na daljinu</p>";
-              html += '</div>';
+                  var company = JSON.parse(cmp);
 
-              // html += "<button onclick='applicationProcedure(" + internships[0].ID + ")'>Prijavi se</button>";
+                  console.log(company[0]['ime_tvrtke']);
 
-              html += "<button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#exampleModal' data-int-id='"+ internships[0].ID +"'>Prijavi se</button>";
-              html += '<div class="details_body w-50">';
 
-                html += "<h4 class='mt-5' style='color: white; font-weight: bold;'>Opis firme</h4>";
-                html += "<p>" + 'Mi smo Mono, full-service software development tvrtka iz Osijeka. Proslavili smo 19. rođendan. Uselili u osječki IT park! Proglašeni smo najuspješnijim poduzećem u Hrvatskoj za vrijeme pandemije te najboljom ICT tvrtkom - i to u globalno najizazovnijoj godini ikada. \
-                            Tražimo nove kolege koji će s nama jednako entuzijastično nastaviti postojeće klijentske i interne projekte te donijeti dašak nove energije i originalnih ideja u procesima i projektima koje tek jedva čekamo započeti. U potrazi smo za ljudima svih levela: junior, middle, senior s naglaskom na mid/senior' + "</p>";
+                  var html = "";
 
-                html += "<h4 style='color: white; font-weight: bold;'>Opis prakse</h4>";
-                html += "<p>" + 'Kao DevOps engineer u Monu ćeš se baviti izgradnjom (planiranjem), održavanjem i povezivanjem continuous integration, continuous delivery/deployment servisa i operacija, a ponekad i automatiziranih testova, backupa i slično.\
-                                U suradnji s kolegom sistemcem ili samostalno ćeš raditi na planiranju i izgradnji nove infrastrukture - u smislu podizanja i konfiguriranja novih servera i servisa na njima.\
-                                Upravljat ćeš nadzorom (monitoring) i održavanjem (poboljšanjem) postojećih sustava (i infrastrukture), ponajviše u smjeru sigurnosti i performansi (optimizacije servera, skaliranje, npr. rekonfiguriranje i migracije baza podataka).' + "</p>";
-                
-                html += "<h4 style='color: white; font-weight: bold;'>Kvalifikacije</h4>";
-                html += "<p>" + 'iskustvo u radu s Microsoft Azure i/ili Amazon AWS okruženjima i alatima (EC2, RDS,  ElastiCache) te sa serverskim OS-ovima (primarno Windows, Linux - Centos i rjeđe Ubuntu) \ ' + "</p>";
-                  
-                html += "<h4 style='color: white; font-weight: bold;'>Dodatne informacije</h4>";
-                html += '<p> Zauzvrat nudimo: </p>';
-                html += '<p> fleksibilno radno vrijeme \
-                            povremeni remote rad/hybrid </p>';
+                  html += "<div class='container mb-5' style='margin-left: 50px; line-height:20px;'>";
+                  html += " <button type='button' class='btn btn-light mb-5'  onclick = 'showInternships_nat()')><a >\ <i class='fa fa-chevron-left' aria-hidden='true'></i> Natrag na sve oglase</a></button>";
+                  html += '<div class="details_title" style="line-height: 3px; !important font-weight: bold;" style="color: white ">';
+                    html += "<h1 style='color: white; font-weight: bold;'> " + company[0]['ime_tvrtke'] + ", est. " + company[0]['godina_osnutka'] +  "</h1>";
+                    html += '<h3 style="color: white; font-weight: bold;">' + internships[0].naslov + '</h3>';
+                    html += "<p class='font-weight-bold'>" + company[0]['adresa'] + "</p>";
+                    // html += "<p>Zaposlenici mogu raditi na daljinu</p>";
+                  html += '</div>';
 
-                html += "<h4 style='color: white; font-weight: bold;'>Datum početka: " + '2022' + "</h4>";
+                  // html += "<button onclick='applicationProcedure(" + internships[0].ID + ")'>Prijavi se</button>";
+
+                  html += "<button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#exampleModal' data-int-id='"+ internships[0].ID +"'>Prijavi se</button>";
+                  html += '<div class="details_body w-50">';
+
+                    html += "<h4 class='mt-5' style='color: white; font-weight: bold;'>Opis firme</h4>";
+                    html += "<p>" + company[0]['opis'] + "</p>";
+
+                    html += "<h4 style='color: white; font-weight: bold;'>Opis prakse</h4>";
+                    html += "<p>" + internships[0].opis_posla + "</p>";
+                    
+                    html += "<h4 style='color: white; font-weight: bold;'>Kvalifikacije</h4>";
+                    html += "<p>" + internships[0].kvalifikacije + "</p>";
+                      
+                    html += "<h4 style='color: white; font-weight: bold;'>Dodatne informacije</h4>";
+                    html += "<p>" + internships[0].dodatne_informacije + "</p>";
+
+                    html += "<h4 style='color: white; font-weight: bold;'>Datum početka: " + internships[0].datum_pocetka + "</h4>";
+                    html += '</div>';
+                    html += "</div>";
+
+                    $("#internships").html(html);
+                }
+              })
             
-
-                  
-                html += '</div>';
-                html += "</div>";
-
-              $("#internships").html(html);
             },
             error: function(xhr, status) {
                 console.log("showInternships :: error :: status = " + status);
@@ -256,20 +263,19 @@
                           </div>\
                           -->\
                           <div class='solu_title'>\
-                            <h3>" + internships[i].company + ' - ' + internships[i].title + " </h3>\
+                            <h3>" + internships[i].company + ' - ' + internships[i].naslov + " </h3>\
                           </div>\
                           <div class='solu_description'>\
                             <p>\ "
-                            html += internships[i].description;
+                            html += internships[i].opis_posla;
                             html += '<br>';
-                            html += 'Prijave do 30.12.12';
+                            html += internships[i].datum_pocetka;
                             html += " </p>\
-                            <button type='button' class='read_more_btn' onclick = 'showInternship_nat(" + internships[i].ID + ")')><a >\Detalji</a></button>\
+                            <button type='button' class='read_more_btn' onclick = 'showInternship_nat(" + internships[i].id_oglasa + ")')><a >\Detalji</a></button>\
                           </div>\
                         </div>\
                       </div>\
                       </div>";
-                console.log([internships[i]]);
               }
 
               $("#internships").html(html);
@@ -315,15 +321,12 @@
 
     <hr class="solid ml-4 mr-5" style="color: white; width: 80%;">
 
-
     <div id="main" class="row">
         <div id="internships" class="col-sm" style="width: 50%;">
         <div></div>
     </div>
     </div>
 
-   
-    
 
   </body>
 </html>
