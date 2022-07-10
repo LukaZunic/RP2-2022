@@ -1,4 +1,3 @@
-
 <?php
   session_start();
   $_SESSION['tip_korisnika'] = 'student';
@@ -20,11 +19,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Portal za praksu</title>
+    <link rel="shortcut icon" href="./assets/favicon.ico" />
     <link rel="stylesheet" href="client/style.css">
     <link rel="stylesheet" href="client/internships.css">
     <script src="./script.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href='https://fonts.googleapis.com/css?family=Titillium Web' rel='stylesheet'>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
@@ -32,12 +36,24 @@
   </head>
   <body>
 
-    <nav class="navbar fixed-top px-5 mb-5" style="background-color: transparent;">
-        <span class="navbar-brand mb-0 h1" style="color: white;">STUDENTSKI PORTAL</span>
+    <nav class="navbar navbar-expand-lg px-5 mb-5 py-3 fixed-top" style="color: white; background-color: black;">
+      <span class="navbar-brand mb-0 h1" style="color: white; font-weight: bold;">STUDENTSKI PORTAL</span>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-
-        <?php
-          if($tip_korisnika === 'tvrtka') {
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <!-- <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="#">O nama</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Zakonik</a>
+          </li>
+        </ul> -->
+      </div>
+      <?php
+          if($tip_korisnika === 'firma') {
             echo '<li class="nav-item">';
             echo '<a class="nav-link" href="#">Link</a>';
             echo '</li>';
@@ -48,10 +64,10 @@
             echo '</span>';
           }
         ?>
-    </nav>
+      </nav>
 
-    <div id='free' class="px-5 py-4 mt-5" style="color:white;">
-      <h3>Slobodne prakse</h3>
+    <div id='free' class="px-5 py-4" style="color:white; font-weight: bold; margin-top: 6%;">
+      <h3 style="font-weight: bold;">Prolistaj oglase i <br> nađi praksu za sebe!</h3>
     </div>
 
     
@@ -59,17 +75,17 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Prijava</h5>
           </div>
           <div class="modal-body">
             <form>
               <div class="form-group">
                 <label for="applicant-name" class="col-form-label">Ime:</label>
-                <input type="text" class="form-control" id="applicant-name">
+                <input type="text" class="form-control" id="applicant-name" value="<?php echo $_SESSION['userName'] ?>">
               </div>
               <div class="form-group">
                 <label for="applicant-surname" class="col-form-label">Prezime:</label>
-                <input type="text" class="form-control" id="applicant-surname">
+                <input type="text" class="form-control" id="applicant-surname"  value="<?php echo $_SESSION['userSurname'] ?>">
               </div>
               <div class="form-group">
                 <label for="applicant-msg" class="col-form-label">Poruka:</label>
@@ -94,19 +110,17 @@
     </div>
 
     <script>
+      $('#exampleModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget) // Button that triggered the modal
+        var recipient = button.data('int-id') // Extract info from data-* attributes
 
-    $('#exampleModal').on('show.bs.modal', function (event) {
-      var button = $(event.relatedTarget) // Button that triggered the modal
-      var recipient = button.data('int-id') // Extract info from data-* attributes
-
-      // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-      // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-      var modal = $(this)
-      modal.find('.modal-title').text('New message to ' + recipient)
-      modal.find('.modal-body input').val(recipient)
-      modal.find('.modal int-id').val(recipient)
-    })
-
+        // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+        var modal = $(this)
+        modal.find('.modal-title').text('Prijava na oglas ')
+        modal.find('.modal-body input').val(recipient)
+        modal.find('.modal int-id').val(recipient)
+      })
     </script>
 
 
@@ -123,8 +137,6 @@
         var message = $('#applicant-msg').val();
         var internshipId = $('#int-id').val();
         console.log(name, surname, email, message, internshipId);
-
-  
         
         $.ajax({
             url: "../server/sendApplication.php",
@@ -158,14 +170,13 @@
               console.log(data);
               var internships = JSON.parse(data);
 
-              document.getElementById('free').innerHTML = '';
+              // document.getElementById('free').innerHTML = '';
 
               internships = internships;
-              var html = " <button type='button'  onclick = 'showInternships_nat()')><a >\Natrag</a></button>";
+              var html = "";
 
-              html += ""
-
-              html += "<div class='container' style='margin-left: 50px; line-height:20px;'>";
+              html += "<div class='container mb-5' style='margin-left: 50px; line-height:20px;'>";
+              html += " <button type='button' class='btn btn-light mb-5'  onclick = 'showInternships_nat()')><a >\ <i class='fa fa-chevron-left' aria-hidden='true'></i> Natrag na sve oglase</a></button>";
               html += '<div class="details_title" style="line-height: 3px; !important font-weight: bold;" style="color: white ">';
                 html += "<h1 style='color: white; font-weight: bold;'> " + internships[0].company + "</h1>";
                 html += '<h3 style="color: white; font-weight: bold;">' + internships[0].title + '</h3>';
@@ -197,7 +208,7 @@
 
                 html += "<h4 style='color: white; font-weight: bold;'>Datum početka: " + '2022' + "</h4>";
             
-                html += "<button type='button' onclick = 'showInternships()><a >\Natrag</a></button>\ ";
+
                   
                 html += '</div>';
                 html += "</div>";
@@ -266,20 +277,41 @@
     </script>
 
     <div id="main" class="row">
-      <div id="internships" class="col-sm" style="width: 50%;">
-
-      </div>
-      <div class="col-sm">
+      
+      <div class="col-3 mx-5">
         <h2 style="color: white;">Naši ciljevi</h2>
-          <p style="width:600px; color: white;">
-            Osnovni ciljevi stručne prakse su stjecanje novih spoznaja, vještina i kompetencija studenata,
-            prilagodba studenata specifičnim zahtjevima tržišta rada, nadopuna, praktična provjera i primjena stručnih znanja usvojenih tijekom studija, stjecanje stručnog iskustva, razvijanje odgovornosti prema uspješnom izvršavanju zadataka, razvoj komunikacijskih vještina u radu s korisnicima i promocija suradnje Odjela s AKM i drugim ustanovama.
-            Stručna praksa obvezni je dio nastavnog procesa. Obavljaju je studenti preddiplomskog i diplomskog (redovnog i izvanrednog) studija informacijskih znanosti Sveučilišta u Zadru koji nakon završetka školovanja stječu naziv prvostupnik/prvostupnica informacijskih znanosti i magistar/magistra informacijskih znanosti. Studenti stručnu praksu mogu obavljati u zemlji i inozemstvu.
-            Studenti prve godine preddiplomskog studija nemaju stručnu praksu
+          <p style="width:400px; color: white; font-size: 14px;">
+            Naš cilj je omogućiti lak pristup studentskoj praksi svakom studentu i studentici na području RH.
+            Kroz ovaj portal su praksa i iskustvo nadohvat ruke.
+          </p>    
+      </div>
+        
+      <div class="col-3" style="margin-left: 5%;">
+        <h2 style="color: white;">Cilj prakse je</h2>
+          <p style="width:400px; color: white;  font-size: 14px;">    
+            stjecanje stručnog iskustva, razvijanje odgovornosti prema uspješnom izvršavanju zadataka, razvoj komunikacijskih vještina u radu s korisnicima
+            i promocija suradnje Odjela s AKM i drugim ustanovama.
           </p>
         
       </div>
 
+      <div class="col-3" style="margin-left: 5%;">
+        <h2 style="color: white;">2015. i 2016. godine</h2>
+          <p style="width:400px; color: white;  font-size: 14px;">    
+          je Ministarstvo znanosti i obrazovanja provelo anketu koja je pokazala da je u Hrvatskoj 947 programa koji provode stručnu praksu, a to uključuje više od 165.000 studenata koji ju obavljaju
+          </p>
+        
+      </div>
+
+    </div>
+
+    <hr class="solid ml-4 mr-5" style="color: white; width: 80%;">
+
+
+    <div id="main" class="row">
+        <div id="internships" class="col-sm" style="width: 50%;">
+        <div></div>
+    </div>
     </div>
 
    
