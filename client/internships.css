@@ -72,6 +72,7 @@
   }
   
   .solution_card .solu_description p {
+    color: #212121;
     font-size: 15px;
     margin-bottom: 15px;
   }
@@ -263,7 +264,7 @@
 .articles__content--rhs {
   clip-path: polygon(50% 0,100% 0,100% 100%,50% 100%);
   -webkit-clip-path: polygon(50% 0,100% 0,100% 100%,50% 100%);
-  transition: transform .5s ease-in-out,background-color .4s ease-in-out;
+  transition: transform .5s ease-in-out, background-color .4s ease-in-out;
 }
 
 .articles__title {
@@ -289,6 +290,6 @@
 .articles__link:hover:after {
   opacity: 1;
   transform: translateX(calc(var(--base-grid)*1.5));
-  transition: opacity .5s ease-in,transform .3s ease-in-out .25s;
+  transition: opacity .5s ease-in, transform .3s ease-in-out .25s;
 }
 

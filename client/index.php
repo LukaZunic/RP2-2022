@@ -54,12 +54,10 @@
       </div>
       <?php
           if($tip_korisnika === 'firma') {
-            echo '<li class="nav-item">';
-            echo '<a class="nav-link" href="#">Link</a>';
-            echo '</li>';
             echo '<span class="navbar-action">';
             echo '<button type="button" class="btn btn-light">';
-            echo '<a href="./client/newInternship.php" style="color: white;">Dodaj Oglas</a>';
+            echo '<a href="./client/newInternship.php" style="color: white;">Dodaj novi oglas</a>';
+            // echo '<a href="" style="color: white;">Izlogiraj se</a>';
             echo '</button>';
             echo '</span>';
           }
@@ -67,7 +65,16 @@
       </nav>
 
     <div id='free' class="px-5 py-4" style="color:white; font-weight: bold; margin-top: 6%;">
-      <h3 style="font-weight: bold;">Prolistaj oglase i <br> nađi praksu za sebe!</h3>
+
+      <?php
+        if(isset($_SESSION['tip_korisnika']) && $_SESSION['tip_korisnika'] === 'student') {
+          echo '<h3 style="font-weight: bold;">Prolistaj oglase i <br> nađi praksu za sebe!</h3>';
+        } else {
+          echo '<h3 style="font-weight: bold;">Dobrodošli natrag<br>na najveći studentski portal u RH!</h3>';
+        }
+      ?>
+
+      <!-- <h3 style="font-weight: bold;">Prolistaj oglase i <br> nađi praksu za sebe!</h3> -->
     </div>
 
     
@@ -89,7 +96,8 @@
               </div>
               <div class="form-group">
                 <label for="applicant-msg" class="col-form-label">Poruka:</label>
-                <input type="text" class="form-control" id="applicant-msg">
+                <textarea name="" id="applicant-msg" class="form-control"  cols="30" rows="10"></textarea>
+                <!-- <input type="text" class="form-control" id="applicant-msg"> -->
               </div>
               <div class="form-group">
                 <label for="applicant-msg" class="col-form-label">E-mail:</label>
