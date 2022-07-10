@@ -1,13 +1,12 @@
 <?php
   session_start();
-  $_SESSION['tip_korisnika'] = 'student';
 
-  // if(!isset($_SESSION['tip_korisnika'])) {
-  //   header('login.php');
-  // }
+  if(!isset($_SESSION['user_type'])) {
+    header('login.php');
+  }
 
-  if(isset($_SESSION['tip_korisnika'])) {
-    $tip_korisnika = $_SESSION['tip_korisnika'];
+  if(isset($_SESSION['user_type'])) {
+    $user_type = $_SESSION['user_type'];
   }
 ?>
 
@@ -53,21 +52,52 @@
         </ul> -->
       </div>
       <?php
-          if($tip_korisnika === 'firma') {
-            echo '<span class="navbar-action">';
+
+         
+          if($user_type === 'company') {
+            echo '<span class="navbar-action" style="margin-right: 20px;">';
+            echo "<button type='button' class='btn btn-light' id='showCmp'>";
+            echo '<a href="/client/companyInternships.php" style="color: white;">Moji oglasi</a>';
+            // echo '<a href="" style="color: white;">Izlogiraj se</a>';
+            echo '</button>';
+            echo '</span>';
+            echo '<span class="navbar-action ml-4">';
             echo '<button type="button" class="btn btn-light">';
             echo '<a href="./client/newInternship.php" style="color: white;">Dodaj novi oglas</a>';
             // echo '<a href="" style="color: white;">Izlogiraj se</a>';
             echo '</button>';
             echo '</span>';
           }
+          echo '<a class="nav-link" style="margin-left: 20px;" href="./client/logout.php">Odjava</a>'; 
         ?>
       </nav>
+
+      <script>
+
+        document.getElementById('showCmp').addEventListener('click', function() {
+          showCompanyInternships();
+        });
+
+        showCompanyInternships = () => {
+          $.ajax({
+            url: './server/getCompanyInternships.php',
+            type: 'GET',
+            data: {
+              id: '<?php echo $_SESSION['id_tvrtke']; ?>'
+            },
+            success: function(data) {
+              $('#internships').html(data);
+            }
+          });
+        }
+
+      </script>
+ 
 
     <div id='free' class="px-5 py-4" style="color:white; font-weight: bold; margin-top: 6%;">
 
       <?php
-        if(isset($_SESSION['tip_korisnika']) && $_SESSION['tip_korisnika'] === 'student') {
+        if(isset($_SESSION['user_type']) && $_SESSION['user_type'] === 'student') {
           echo '<h3 style="font-weight: bold;">Prolistaj oglase i <br> nađi praksu za sebe!</h3>';
         } else {
           echo '<h3 style="font-weight: bold;">Dobrodošli natrag<br>na najveći studentski portal u RH!</h3>';
@@ -163,8 +193,7 @@
                 if(status === "timeout")
                     showInternships();
             }
-        })
-        
+        })  
       }
 
       showInternship_nat = function(id) {
@@ -192,7 +221,6 @@
 
                   console.log(company[0]['ime_tvrtke']);
 
-
                   var html = "";
 
                   html += "<div class='container mb-5' style='margin-left: 50px; line-height:20px;'>";
@@ -213,7 +241,7 @@
                     html += "<p>" + company[0]['opis'] + "</p>";
 
                     html += "<h4 style='color: white; font-weight: bold;'>Opis prakse</h4>";
-                    html += "<p>" + internships[0].opis_posla + "</p>";
+                    html += "<p>" + internships[0].opis_posla + "...</p>";
                     
                     html += "<h4 style='color: white; font-weight: bold;'>Kvalifikacije</h4>";
                     html += "<p>" + internships[0].kvalifikacije + "</p>";
@@ -247,35 +275,36 @@
             success: function(data) {
 
               var internships = JSON.parse(data);
-    
+
               var html = "";
               for (var i = 0; i < internships.length; i++) {
+
                   html += "<div class='section_our_solution my-3'>\
-                <div class='row'>\
-                  <div class='col-lg-12 col-md-12 col-sm-12'>\
-                    <div class='our_solution_category'>\
-                      <div class='solution_cards_box'>\
-                        <div class='solution_card'>\
-                          <div class='hover_color_bubble'>\</div>\
-                          <!--\
-                          <div class='so_top_icon'>\
-                            <img src='client/assets/headhunting.png' alt=''>\
+                    <div class='row'>\
+                      <div class='col-lg-12 col-md-12 col-sm-12'>\
+                        <div class='our_solution_category'>\
+                          <div class='solution_cards_box'>\
+                            <div class='solution_card'>\
+                              <div class='hover_color_bubble'>\</div>\
+                              <!--\
+                              <div class='so_top_icon'>\
+                                <img src='client/assets/headhunting.png' alt=''>\
+                              </div>\
+                              -->\
+                              <div class='solu_title'>\
+                                <h3>" + internships[i].company + ' - ' + internships[i].naslov + " </h3>\
+                              </div>\
+                              <div class='solu_description'>\
+                                <p>\ "
+                                html += internships[i].opis_posla.substr(0, 250) ;
+                                html += '<br>';
+                                html += internships[i].datum_pocetka;
+                                html += " </p>\
+                                <button type='button' class='read_more_btn' onclick = 'showInternship_nat(" + internships[i].id_oglasa + ")')><a >\Detalji</a></button>\
+                              </div>\
+                            </div>\
                           </div>\
-                          -->\
-                          <div class='solu_title'>\
-                            <h3>" + internships[i].company + ' - ' + internships[i].naslov + " </h3>\
-                          </div>\
-                          <div class='solu_description'>\
-                            <p>\ "
-                            html += internships[i].opis_posla;
-                            html += '<br>';
-                            html += internships[i].datum_pocetka;
-                            html += " </p>\
-                            <button type='button' class='read_more_btn' onclick = 'showInternship_nat(" + internships[i].id_oglasa + ")')><a >\Detalji</a></button>\
-                          </div>\
-                        </div>\
-                      </div>\
-                      </div>";
+                          </div>";
               }
 
               $("#internships").html(html);

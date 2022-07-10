@@ -1,5 +1,4 @@
 <?php
-
     include_once 'db.php';
 
     $conn = DB::getConnection();
@@ -19,7 +18,5 @@
         $cmp[] = $row;
     }
 
-    
     echo json_encode($cmp);
-
 ?>
