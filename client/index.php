@@ -59,15 +59,20 @@
             // echo '<a href="" style="color: white;">Izlogiraj se</a>';
             echo '</button>';
             echo '</span>';
-            echo '<span class="navbar-action ml-4">';
+            echo '<span class="navbar-action ml-4" style="margin-right: 20px;">';
             echo '<button type="button" class="btn btn-light">';
             echo '<a href="./client/newInternship.php" style="color: white;">Dodaj novi oglas</a>';
             // echo '<a href="" style="color: white;">Izlogiraj se</a>';
             echo '</button>';
             echo '</span>';
           }
-          echo '<a class="nav-link" style="margin-left: 20px;" href="./client/logout.php">Odjava</a>'; 
+          echo '<a class="nav-link" style="margin-right: 20px;" href="./client/logout.php">Odjava</a>'; 
         ?>
+        <span class="navbar-action" style="margin-right: 20px;">
+          <button type='button' class='btn btn-light' id='showProfile' onclick="showProfile();">
+            Moj profil
+          </button>
+        </span>
       </nav>
 
       <script>
@@ -162,6 +167,45 @@
       $(document).ready(() => {
         showInternships_nat();
       });
+
+      showProfile = () => {
+          $.ajax({
+            url: './client/showProfile.php',
+            type: 'GET',
+            data: {
+              id: '<?php echo $_SESSION['username']; ?>'
+            },
+            success: function(data) {
+              console.log(data);
+
+              data = JSON.parse(data);
+
+              var html = "";
+              html += "<div class='container'>";
+              html += "<div class='row'>";
+              html += "<div class='col-md-12'>";
+              html += "<div class='card'>";
+              html += "<div class='card-header'>";
+              html += "<h3>Moj profil</h3>";
+              html += "</div>";
+              html += "<div class='card-body'>";
+              html += "<div class='row'>";
+              html += "<div class='col-md-4'>";
+              html += "</div>";
+              html += "<div class='col-md-8'>";
+              html += "<h2>" + data.ime + " " + data.prezime + "</h2>";
+              html += "<h4>E-mail: " + data.mail + "</h4><br>";
+              html += "<h4>JMBAG: " + data.jmbag + "</h4><br>";
+              html += "<h4>Ustanova: " + data.fakultet + "</h4><br>";
+              html += "<h4>Studij: " + data.studij + "</h4><br>";
+              html += "<h4>Smjer: " + data.smjer + "</h4> <br>";
+              html += "</div>";
+
+              $('#internships').html(html);
+            }
+          });
+        }
+
 
       handleApplication = function() {
         

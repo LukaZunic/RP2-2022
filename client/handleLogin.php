@@ -342,30 +342,6 @@ function processSignup(){
 
 }
 
-// 	try{
-// 		$st = $db->prepare('SELECT password_hash FROM dz2_users WHERE username=:username');
-// 		$st->execute(array('username' => $_POST["username"]));
-// 	}	
-// 	catch(PDOException $e){ drawLoginForm('Greška:' . $e->getMessage()); return; }
-
-// 	if($st->rowCount() > 0){
-// 		drawLoginForm('Taj korisnik već postoji.');
-// 		return;
-// 	}
-// 	else{
-// 		try{
-//             $registration_sequence = 'abc';
-//             $has_registered = 1;
-
-//                     $st = $db->prepare('INSERT INTO dz2_users (username, password_hash, email, registration_sequence, has_registered) VALUES (:username, :hash, :email, :registration_sequence, :has_registered)');
-//                     $hash = password_hash($_POST["password"], PASSWORD_DEFAULT);
-//                     $st->execute(array('username' => $_POST["username"], 'hash' => $hash, 'email' => $_POST["email"], 'registration_sequence' => $registration_sequence, 'has_registered' => $has_registered));
-//                 }
-//                 catch(PDOException $e){ drawLoginForm('Greška:' . $e->getMessage()); return; }
-
-//                 drawLoginForm('Novi korisnik je uspješno dodan!');
-// 	}
-// }
 
 }
 if(isset($_POST["submit"]) && $_POST["submit"] === "login") {
