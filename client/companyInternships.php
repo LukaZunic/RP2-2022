@@ -2,7 +2,7 @@
     session_start();
 
     if(!isset($_SESSION['user_type'])) {
-      header('login.php');
+      header("Location: ./handleLogin.php");
     }
 
     if(isset($_SESSION['user_type'])) {
