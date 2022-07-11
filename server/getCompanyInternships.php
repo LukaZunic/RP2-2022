@@ -9,9 +9,10 @@
 
     $id = $_GET['id'];
 
+
     if($id != -1) {
-        // $sql="SELECT * FROM oglas WHERE id_firme = '$id'";
-        $sql="SELECT * FROM oglas";
+        $sql="SELECT * FROM oglas WHERE ime_tvrtke = '$id'";
+        // $sql="SELECT * FROM oglas";
         $result = $conn->query($sql);
 
         $internships = array();

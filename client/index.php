@@ -52,8 +52,6 @@
         </ul> -->
       </div>
       <?php
-
-         
           if($user_type === 'company') {
             echo '<span class="navbar-action" style="margin-right: 20px;">';
             echo "<button type='button' class='btn btn-light' id='showCmp'>";
@@ -98,9 +96,9 @@
 
       <?php
         if(isset($_SESSION['user_type']) && $_SESSION['user_type'] === 'student') {
-          echo '<h3 style="font-weight: bold;">Prolistaj oglase i <br> nađi praksu za sebe!</h3>';
+          echo '<h3 style="font-weight: bold;">Prolistaj oglase i <br> <span style="color: #AA14F0;"> nađi praksu za sebe!</span></h3>';
         } else {
-          echo '<h3 style="font-weight: bold;">Dobrodošli natrag<br>na najveći studentski portal u RH!</h3>';
+          echo '<h3 style="font-weight: bold;">Dobrodošli natrag<br><span style="color: #AA14F0;">na najveći studentski portal u RH!</span></h3>';
         }
       ?>
 
@@ -207,12 +205,11 @@
               console.log(data);
               var internships = JSON.parse(data);
 
-
               $.ajax({
                 url: "../server/getCompany.php",
                 method: "GET",
                 data: {
-                  id: 'fotomat' // prominit
+                  id: internships[0].ime_tvrtke
                 },
                 success: function(cmp) {
                   console.log(cmp);
@@ -226,14 +223,10 @@
                   html += "<div class='container mb-5' style='margin-left: 50px; line-height:20px;'>";
                   html += " <button type='button' class='btn btn-light mb-5'  onclick = 'showInternships_nat()')><a >\ <i class='fa fa-chevron-left' aria-hidden='true'></i> Natrag na sve oglase</a></button>";
                   html += '<div class="details_title" style="line-height: 3px; !important font-weight: bold;" style="color: white ">';
-                    html += "<h1 style='color: white; font-weight: bold;'> " + company[0]['ime_tvrtke'] + ", est. " + company[0]['godina_osnutka'] +  "</h1>";
+                    html += "<h1 style='color: white; font-weight: bold;'> " + internships[0].ime_tvrtke + ", est. " + company[0]['godina_osnutka'] +  "</h1>";
                     html += '<h3 style="color: white; font-weight: bold;">' + internships[0].naslov + '</h3>';
                     html += "<p class='font-weight-bold'>" + company[0]['adresa'] + "</p>";
-                    // html += "<p>Zaposlenici mogu raditi na daljinu</p>";
                   html += '</div>';
-
-                  // html += "<button onclick='applicationProcedure(" + internships[0].ID + ")'>Prijavi se</button>";
-
                   html += "<button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#exampleModal' data-int-id='"+ internships[0].ID +"'>Prijavi se</button>";
                   html += '<div class="details_body w-50">';
 
@@ -292,7 +285,7 @@
                               </div>\
                               -->\
                               <div class='solu_title'>\
-                                <h3>" + internships[i].company + ' - ' + internships[i].naslov + " </h3>\
+                                <h3>" + "<span style='font-weight:bold'>" + internships[i].ime_tvrtke + '</span> - ' + internships[i].naslov + " </h3>\
                               </div>\
                               <div class='solu_description'>\
                                 <p>\ "

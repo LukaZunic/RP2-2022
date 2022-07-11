@@ -99,7 +99,7 @@ function crtaj_Forma($mess){
         $def_broj_mobitela=0;
         $mail="";
         $def_mail=0; 
-    if(isset( $_POST["gumb" ] ) && $_POST["gumb"] === "Pošalji" ){
+    if(isset($_POST["gumb"]) && $_POST["gumb"] === "Pošalji" ){
         if(isset($_POST['ime']) && $_POST['ime']!=""){
             $ime = $_POST['ime'];
         }

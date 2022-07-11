@@ -1,13 +1,12 @@
 <?php
     session_start();
-    $_SESSION['tip_korisnika'] = 'firma';
 
-    if(!isset($_SESSION['tip_korisnika'])) {
-    header('login.php');
+    if(!isset($_SESSION['user_type'])) {
+      header('login.php');
     }
 
-    if(isset($_SESSION['tip_korisnika'])) {
-    $tip_korisnika = $_SESSION['tip_korisnika'];
+    if(isset($_SESSION['user_type'])) {
+      $user_type = $_SESSION['user_type'];
     }
 ?>
 
@@ -52,7 +51,7 @@
         </ul> -->
       </div>
       <?php
-          if($tip_korisnika === 'firma') {
+          if($user_type === 'company') {
             echo '<span class="navbar-action" style="margin-right: 20px;">';
             echo "<button type='button' class='btn btn-light' id='showCmp'>";
             echo '<a href="/client/companyInternships.php" style="color: white;">Moji oglasi</a>';
@@ -77,8 +76,9 @@
     <script>
         $(document).ready(() => {  
             // get id of cmp 
-            // let cmpId = <?php // echo $_SESSION['id_firme']; ?>;
-            showInternships_cmp('fotomat');
+            var cmpId = '<?php echo $_SESSION['username']; ?>'
+            console.log(cmpId);
+            showInternships_cmp(cmpId);
         });
 
         showInternships_cmp = (cmpId) => {
@@ -87,7 +87,7 @@
                 url: '../server/getCompanyInternships.php',
                 type: 'GET',
                 data: {
-                    id: cmpId
+                  id: 'Span'
                 },
                 success: (data) => {
                     console.log(data);
