@@ -8,14 +8,6 @@ session_start();
 
 function processLogin(){
 
-    //   if(!isset($_POST["username"]) || preg_match('/[a-zA-Z]{1, 20}/', $_POST["username"])){
-    // 		drawLoginForm();
-    //   }
-
-    //   if(!isset($_POST["password"])){
-    // 		drawLoginForm();
-    //   }
-
     $db = DB::getConnection();
     $user_type = $_POST['loginSelect'];
 
@@ -41,13 +33,13 @@ function processLogin(){
     }
 
 
-  $row = $st->fetch();
+    $row = $st->fetch();
 
-  if($row === false){
-    echo '<script>console.log("nema")</script>';
-    drawLoginForm('Korisnik ne postoji!');
-    return;
-  }
+    if($row === false){
+        // echo '<script>console.log("nema")</script>';
+        drawLoginForm('Korisnik ne postoji!');
+        return;
+    }
 
     if($user_type == 'student') {
        

@@ -8,6 +8,10 @@
     if(isset($_SESSION['user_type'])) {
       $user_type = $_SESSION['user_type'];
     }
+
+    if(isset($_SESSION['username'])) {
+      $username = $_SESSION['username'];
+    }
 ?>
 
 <!DOCTYPE html>
@@ -74,8 +78,7 @@
     
 
     <script>
-        $(document).ready(() => {  
-            // get id of cmp 
+        $(document).ready(() => {
             var cmpId = '<?php echo $_SESSION['username']; ?>'
             console.log(cmpId);
             showInternships_cmp(cmpId);
@@ -87,7 +90,7 @@
                 url: '../server/getCompanyInternships.php',
                 type: 'GET',
                 data: {
-                  id: 'Span'
+                  id: cmpId
                 },
                 success: (data) => {
                     console.log(data);
@@ -109,7 +112,7 @@
                                     </div>\
                                     -->\
                                     <div class='solu_title'>\
-                                        <h3>" + internships[i].company + ' - ' + internships[i].naslov + " </h3>\
+                                        <h3>" + internships[i].ime_tvrtke + ' - ' + internships[i].naslov + " </h3>\
                                     </div>\
                                     <div class='solu_description'>\
                                         <p>\ "
@@ -117,7 +120,7 @@
                                         html += '<br>';
                                         html += internships[i].datum_pocetka;
                                         html += " </p>\
-                                        <button type='button' class='read_more_btn' onclick = 'showInternship_nat(" + internships[i].id_oglasa + ")')><a >\Detalji</a></button>\
+                                        <button type='button' class='read_more_btn' onclick = 'seeApplications(" + internships[i].id_oglasa + ")')><a >\Prijavljeni studenti</a></button>\
                                     </div>\
                                     </div>\
                                 </div>\
@@ -128,6 +131,59 @@
                 }
             });
         }
+
+        seeApplications = (intId) => {
+          $.ajax({
+            url: '../server/getApplications.php',
+            type: 'GET',
+            data: {
+              id: intId
+            },
+            success: (data) => {
+                    console.log(data);
+                    var applicants = JSON.parse(data);
+
+                    var html = "";
+                    for (var i = 0; i < applicants.length; i++) {
+
+                        html += "<div class='section_our_solution my-3'>\
+                            <div class='row'>\
+                            <div class='col-lg-12 col-md-12 col-sm-12'>\
+                                <div class='our_solution_category'>\
+                                <div class='solution_cards_box'>\
+                                    <div class='solution_card'>\
+                                    <!--\
+                                    <div class='so_top_icon'>\
+                                        <img src='client/assets/headhunting.png' alt=''>\
+                                    </div>\
+                                    -->\
+                                    <div class='solu_title'>\
+                                        <h3 style='font-weight: bold;'>" + applicants[i].ime + ' ' + applicants[i].prezime + " </h3>\
+                                    </div>\
+                                    <div class='solu_description'>\
+                                        <p>\ "
+                                        html += '<p>Godina studija: ' + applicants[i].godina_studija + '</p>';
+                                        html += applicants[i].fakultet;
+                                        html += '<br>';
+                                        html += applicants[i].studij;
+                                        html += '<br>';
+                                        html += applicants[i].smjer;
+                                        html += '<br>';
+                                        html += applicants[i].mail;
+                                        html += '<br>';
+                                        html += " </p>\
+                                    </div>\
+                                    </div>\
+                                </div>\
+                                </div>";
+                    }
+
+                    $("#internships").html(html);
+                }
+          })
+        }
+
+
     </script>
 
 

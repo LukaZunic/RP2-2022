@@ -116,11 +116,11 @@
             <form>
               <div class="form-group">
                 <label for="applicant-name" class="col-form-label">Ime:</label>
-                <input type="text" class="form-control" id="applicant-name" value="<?php echo $_SESSION['userName'] ?>">
+                <input type="text" class="form-control" id="applicant-name">
               </div>
               <div class="form-group">
                 <label for="applicant-surname" class="col-form-label">Prezime:</label>
-                <input type="text" class="form-control" id="applicant-surname"  value="<?php echo $_SESSION['userSurname'] ?>">
+                <input type="text" class="form-control" id="applicant-surname">
               </div>
               <div class="form-group">
                 <label for="applicant-msg" class="col-form-label">Poruka:</label>
@@ -154,8 +154,6 @@
         // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
         var modal = $(this)
         modal.find('.modal-title').text('Prijava na oglas ')
-        modal.find('.modal-body input').val(recipient)
-        modal.find('.modal int-id').val(recipient)
       })
     </script>
 
@@ -219,13 +217,12 @@
                   console.log(company[0]['ime_tvrtke']);
 
                   var html = "";
-
                   html += "<div class='container mb-5' style='margin-left: 50px; line-height:20px;'>";
                   html += " <button type='button' class='btn btn-light mb-5'  onclick = 'showInternships_nat()')><a >\ <i class='fa fa-chevron-left' aria-hidden='true'></i> Natrag na sve oglase</a></button>";
                   html += '<div class="details_title" style="line-height: 3px; !important font-weight: bold;" style="color: white ">';
-                    html += "<h1 style='color: white; font-weight: bold;'> " + internships[0].ime_tvrtke + ", est. " + company[0]['godina_osnutka'] +  "</h1>";
-                    html += '<h3 style="color: white; font-weight: bold;">' + internships[0].naslov + '</h3>';
-                    html += "<p class='font-weight-bold'>" + company[0]['adresa'] + "</p>";
+                  html += "<h1 style='color: white; font-weight: bold;'> " + internships[0].ime_tvrtke + ", est. " + company[0]['godina_osnutka'] +  "</h1>";
+                  html += '<h3 style="color: white; font-weight: bold;">' + internships[0].naslov + '</h3>';
+                  html += "<p class='font-weight-bold'>" + company[0]['adresa'] + "</p>";
                   html += '</div>';
                   html += "<button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#exampleModal' data-int-id='"+ internships[0].ID +"'>Prijavi se</button>";
                   html += '<div class="details_body w-50">';
